@@ -78,23 +78,28 @@ export default function Home() {
 
   return (
     <Box
-      width="800px"
-      height="100vh"
+      width="100%"
+      maxWidth="800px"
+      margin="0 auto"
+      minHeight="100vh"
       display="flex"
       flexDirection="column"
       justifyContent="center"
       alignItems="center"
       gap={2}
-    > 
+      padding={2}
+      boxSizing="border-box"
+    >
       <Button variant="contained" onClick={handleOpen}>
         {editItem ? 'Edit Item' : 'Add New Item'}
       </Button>
       <TextField
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="my-4 p-3 border w-full bg-white text-black"
         type="text"
         placeholder="Search items..."
+        fullWidth
+        margin="normal"
       />
       <Modal
         open={open}
@@ -104,9 +109,10 @@ export default function Home() {
           position="absolute"
           top="50%"
           left="50%"
-          width={400}
+          width="90%"
+          maxWidth="400px"
           bgcolor="white"
-          border="2px solid #000"
+          borderRadius="8px"
           boxShadow={24}
           p={4}
           display="flex"
@@ -116,7 +122,9 @@ export default function Home() {
             transform: 'translate(-50%, -50%)',
           }}
         >
-          <Typography variant="h6">{editItem ? 'Edit Item' : 'Add Item'}</Typography>
+          <Typography variant="h6" textAlign="center">
+            {editItem ? 'Edit Item' : 'Add Item'}
+          </Typography>
           <Stack width="100%" direction="row" spacing={2}>
             <TextField
               variant='outlined'
@@ -135,38 +143,49 @@ export default function Home() {
             />
           </Stack>
           <Button
-            variant="outlined"
+            variant="contained"
             onClick={handleSubmit}
           >
             {editItem ? 'Update' : 'Add'}
           </Button>
         </Box>
       </Modal>
-      <Box border="1px solid #333" width="800px">
-        <Box height="100px" bgcolor="#ADD8E6" display="flex" alignItems={"center"} justifyContent={"center"}>
-          <Typography variant='h2' color='#333'>Inventory Items</Typography>
+      <Box border="1px solid #333" width="100%" maxWidth="800px" borderRadius="8px" overflow="hidden">
+        <Box 
+          height="100px" 
+          bgcolor="#ADD8E6" 
+          display="flex" 
+          alignItems="center" 
+          justifyContent="center"
+          padding={2}
+        >
+          <Typography variant='h4' color='#333'>Inventory Items</Typography>
         </Box>
-        <Stack width="1200px" height="900px"  overflow="auto">
+        <Stack width="100%" maxHeight="500px" overflow="auto">
           {filteredItems.map(({ id, name, quantity }) => (
             <Box 
               key={id}
-              minWidth="1200px"
-              minHeight="25px"
+              width="100%"
               display="flex"
               alignItems="center"
               justifyContent="space-between"
               bgcolor='#f0f0f0'
               padding={2}
+              borderBottom="1px solid #ddd"
             >
               <Typography 
-                variant='h6' color='#333' textAlign="left"
-                sx={{ flex: 1, minWidth: '300px'}}
+                variant='body1' 
+                color='#333' 
+                textAlign="left"
+                sx={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
               > 
                 {name?.charAt(0).toUpperCase() + name.slice(1)}
               </Typography>
               <Typography 
-                variant='h6' color='#333' textAlign="left"
-                sx={{ flex: 1, minWidth: '300px' }}
+                variant='body1' 
+                color='#333' 
+                textAlign="left"
+                sx={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
               > 
                 {quantity}
               </Typography>
